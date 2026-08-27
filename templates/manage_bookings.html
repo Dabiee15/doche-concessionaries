@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Booking Portal | Doche Concessionaries{% endblock %}
+
+{% block content %}
+<div class="manage-card">
+    <div
+         class="gen-style-98cd88d6">
+        <div>
+            <span class="tag-badge caramel">Management Portal</span>
+            <h2 class="font-serif gen-style-dccdd896" >Scheduled Bookings
+                Portal</h2>
+            <p  class="gen-style-fe08d3ef">Review incoming event reservations, edit order
+                details, and manage schedule availability.</p>
+        </div>
+
+        <div  class="gen-style-d101f081">
+            <a href="/admin/" target="_blank" rel="noopener noreferrer" class="btn-primary gen-style-4c5ff235"
+               >Django Admin Panel</a>
+            <div  class="gen-style-91550526">
+                <a href="{% url 'manage_bookings' %}"
+                    class="btn-secondary {% if not current_filter %}btn-active-filter{% endif %} gen-style-f0d3a900"
+                   >All</a>
+                <a href="{% url 'manage_bookings' %}?status=PENDING"
+                    class="btn-secondary {% if current_filter == 'PENDING' %}btn-active-filter{% endif %} gen-style-f0d3a900"
+                   >Pending</a>
+                <a href="{% url 'manage_bookings' %}?status=CONFIRMED"
+                    class="btn-secondary {% if current_filter == 'CONFIRMED' %}btn-active-filter{% endif %} gen-style-f0d3a900"
+                   >Confirmed</a>
+                <a href="{% url 'manage_bookings' %}?status=COMPLETED"
+                    class="btn-secondary {% if current_filter == 'COMPLETED' %}btn-active-filter{% endif %} gen-style-f0d3a900"
+                   >Completed</a>
+            </div>
+        </div>
+    </div>
+
+    <div  class="gen-style-b56181dc">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Ref #</th>
+                    <th>Customer Name</th>
+                    <th>Contact Info</th>
+                    <th>Service / Product</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                    <th>Est. Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in bookings %}
+                <tr>
+                    <td><strong>#DCH-000{{ b.id }}</strong></td>
+                    <td>{{ b.customer_name }}</td>
+                    <td>
+                        <div>Phone: {{ b.customer_phone }}</div>
+                        <div  class="gen-style-bc3433db">{{ b.customer_email }}</div>
+                    </td>
+                    <td>
+                        <div  class="gen-style-db117290">{{ b.service.name|default:"Custom Service" }}</div>
+                        <div  class="gen-style-bd308a19">{{ b.product.name|default:"Custom
+                            Pack" }}</div>
+                    </td>
+                    <td>
+                        <div  class="gen-style-5b0f6c20">Date: {{ b.booking_date }}</div>
+                        <div  class="gen-style-fb2a7115">Time: {{ b.booking_time }}</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-{{ b.status }}">{{ b.get_status_display }}</span>
+                    </td>
+                    <td  class="gen-style-8e933b82">N{{ b.estimated_price }}</td>
+                    <td>
+                        <div  class="gen-style-45d0e13a">
+                            <a href="{% url 'edit_booking' b.id %}" class="btn-secondary gen-style-f919f2bd"
+                               >Edit
+                                Details</a>
+                            <form method="POST" action="{% url 'manage_bookings' %}"  class="gen-style-820c64a2">
+                                {% csrf_token %}
+                                <input type="hidden" name="booking_id" value="{{ b.id }}">
+                                <select name="status" id="status-select-{{ b.id }}" title="Change Booking Status"
+                                    class="form-select gen-style-5308d738" 
+                                    onchange="this.form.submit()">
+                                    <option value="PENDING" {% if b.status=='PENDING' %}selected{% endif %}>Pending
+                                    </option>
+                                    <option value="CONFIRMED" {% if b.status=='CONFIRMED' %}selected{% endif %}>Confirm
+                                    </option>
+                                    <option value="COMPLETED" {% if b.status=='COMPLETED' %}selected{% endif %}>Complete
+                                    </option>
+                                    <option value="CANCELLED" {% if b.status=='CANCELLED' %}selected{% endif %}>Cancel
+                                    </option>
+                                </select>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8"  class="gen-style-9fcb89b9">No bookings found. <a
+                            href="{% url 'booking' %}">Create a new booking test slot -></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

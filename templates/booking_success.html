@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Booking Confirmed | Doche Concessionaries{% endblock %}
+
+{% block content %}
+<div class="success-card">
+    <span class="tag-badge caramel gen-style-e7992da2" >Slot Reserved Successfully</span>
+    <h1 class="font-serif gen-style-c0438586" >Order Booking Submitted
+    </h1>
+    <p  class="gen-style-57acfc22">Thank you <strong>{{ booking.customer_name }}</strong>. Our
+        team will contact you on <strong>{{ booking.customer_phone }}</strong> to finalize your custom specs.</p>
+
+    <div class="booking-ref-code">REF: #DCH-000{{ booking.id }}</div>
+
+    <div
+         class="gen-style-98f9602e">
+        <h3 class="font-serif gen-style-5da94413"
+           >
+            Booking Breakdown</h3>
+
+        <div  class="gen-style-12f700fa">
+            <div>
+                <strong  class="gen-style-d234ae31">Service Type:</strong>
+                <div>{{ booking.service.name|default:"Custom Confectionery Order" }}</div>
+            </div>
+            <div>
+                <strong  class="gen-style-d234ae31">Selected Product:</strong>
+                <div>{{ booking.product.name|default:"Custom Event Order" }}</div>
+            </div>
+            <div>
+                <strong  class="gen-style-d234ae31">Scheduled Date:</strong>
+                <div  class="gen-style-ecfdba5f">{{ booking.booking_date }}</div>
+            </div>
+            <div>
+                <strong  class="gen-style-d234ae31">Preferred Time:</strong>
+                <div  class="gen-style-a348315b">{{ booking.booking_time }}</div>
+            </div>
+            <div>
+                <strong  class="gen-style-d234ae31">Status:</strong>
+                <div><span class="status-badge status-{{ booking.status }}">{{ booking.get_status_display }}</span>
+                </div>
+            </div>
+            <div>
+                <strong  class="gen-style-d234ae31">Estimated Total:</strong>
+                <div  class="gen-style-745dead8">N{{ booking.estimated_price }}
+                </div>
+            </div>
+        </div>
+
+        {% if booking.quantity_notes %}
+        <div  class="gen-style-0a37a31e">
+            <strong  class="gen-style-d234ae31">Customer Notes:</strong>
+            <p  class="gen-style-b829eb33">{{ booking.quantity_notes }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div  class="gen-style-24906274">
+        <a href="https://wa.me/2349077925555?text=Hello%20Doche%20Concessionaries!%20I%20just%20scheduled%20booking%20%23DCH-000{{ booking.id }}."
+            target="_blank" rel="noopener noreferrer" class="btn-primary gen-style-e46cdd25" >
+            <span>Confirm on WhatsApp</span>
+        </a>
+        <a href="{% url 'home' %}" class="btn-secondary">Return Home</a>
+    </div>
+</div>
+{% endblock %}

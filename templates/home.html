@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="hero-section">
+    <div class="hero-content">
+        <span class="tag-badge">Premium Confectionery & Catering</span>
+        <h2  class="gen-style-abf93305">Indulgent Flavors. <span>Luxury You Can Taste.</span></h2>
+        <p class="hero-subtitle">From custom centerpiece cakes and artisanal cupcakes to our signature crunchy chin chin
+            and event catering bars. We bring elegance to your special occasions.</p>
+        <div class="hero-actions">
+            <a href="{% url 'booking' %}" class="btn-primary">
+                <span>Schedule an Order</span>
+            </a>
+            <a href="{% url 'product_list' %}" class="btn-secondary">
+                <span>Explore Catalog</span>
+            </a>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="hero-image-card">
+            <img src="/media/products/naked_cake.jpg" alt="Doche Luxury Tier Cake">
+        </div>
+        <div class="floating-sticker">
+            Handcrafted Daily with Love
+        </div>
+    </div>
+</section>
+
+<!-- Organic Bento Grid Section -->
+<section  class="gen-style-68378f80">
+    <div class="bento-header">
+        <span class="tag-badge caramel">Artisanal Product Showcase</span>
+        <h2 class="scribble-title gen-style-07c308b0" >Our Signature Confections</h2>
+        <p>Explore our selection of cakes, crunchy coated snacks, and sweet pastries prepared fresh to order.</p>
+    </div>
+
+    <div class="bento-grid">
+        {% for product in featured %}
+        <div class="bento-card bento-span-4">
+            <div class="bento-img-wrapper">
+                <div class="bento-badge-pos">
+                    <span class="tag-badge">{{ product.badge_tag }}</span>
+                </div>
+                <img src="{{ product.get_image_url }}" alt="{{ product.name }}">
+            </div>
+            <div class="bento-body">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description|truncatewords:16 }}</p>
+            </div>
+            <div class="bento-footer">
+                <div class="price-tag">N{{ product.starting_price }} <span>/ starting</span></div>
+                <a href="{% url 'booking' %}?product={{ product.id }}" class="btn-card-action">Schedule Order</a>
+            </div>
+        </div>
+        {% empty %}
+        <div  class="gen-style-dfa2da83">
+            <p>No products found in catalog. Run <code>python manage.py seed_data</code> to populate sample items.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- How It Works & Scheduler Banner -->
+<section
+     class="gen-style-0f175113">
+    <div  class="gen-style-d553eb19">
+        <span class="tag-badge caramel gen-style-7b754eef" >Seamless Booking System</span>
+        <h2 class="font-serif gen-style-c073ea2b" >Planning a Birthday,
+            Wedding, or Party?</h2>
+        <p  class="gen-style-f257860f">Choose your preferred
+            date, pick your service or snack package, and lock in your delivery slot in seconds.</p>
+        <a href="{% url 'booking' %}" class="btn-primary gen-style-e4789709" >
+            <span>Open Interactive Scheduler</span>
+        </a>
+    </div>
+</section>
+{% endblock %}

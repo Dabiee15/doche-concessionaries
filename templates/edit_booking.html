@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Booking #{{ booking.id }} | Doche Concessionaries{% endblock %}
+
+{% block content %}
+<div class="booking-container">
+    <div
+         class="gen-style-3b55f0a1">
+        <div>
+            <span class="tag-badge caramel">Admin Edit Mode</span>
+            <h2 class="font-serif gen-style-e9aeb2ad" >Edit Booking
+                Request #DCH-000{{ booking.id }}</h2>
+            <p  class="gen-style-fe08d3ef">Modify customer details, scheduled date & time,
+                products, status, and price estimate.</p>
+        </div>
+        <a href="{% url 'manage_bookings' %}" class="btn-secondary gen-style-fd4786e7" >Back to Portal</a>
+    </div>
+
+    <form method="POST" action="" class="booking-card">
+        {% csrf_token %}
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label" for="{{ form.customer_name.id_for_label }}">Customer Name</label>
+                {{ form.customer_name }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.customer_phone.id_for_label }}">Phone Number</label>
+                {{ form.customer_phone }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.customer_email.id_for_label }}">Email Address</label>
+                {{ form.customer_email }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.service.id_for_label }}">Service Category</label>
+                {{ form.service }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.product.id_for_label }}">Product Item</label>
+                {{ form.product }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.booking_date.id_for_label }}">Scheduled Date</label>
+                {{ form.booking_date }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.booking_time.id_for_label }}">Scheduled Time</label>
+                {{ form.booking_time }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="status">Booking Status</label>
+                <select name="status" id="status" title="Booking Status" class="form-select">
+                    <option value="PENDING" {% if booking.status=='PENDING' %}selected{% endif %}>Pending Confirmation
+                    </option>
+                    <option value="CONFIRMED" {% if booking.status=='CONFIRMED' %}selected{% endif %}>Confirmed</option>
+                    <option value="COMPLETED" {% if booking.status=='COMPLETED' %}selected{% endif %}>Completed</option>
+                    <option value="CANCELLED" {% if booking.status=='CANCELLED' %}selected{% endif %}>Cancelled</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="estimated_price">Estimated Total Price (N)</label>
+                <input type="number" step="0.01" name="estimated_price" id="estimated_price"
+                    title="Estimated Total Price" placeholder="0.00" class="form-control"
+                    value="{{ booking.estimated_price }}">
+            </div>
+        </div>
+
+        <div class="form-group full-width gen-style-a8129340" >
+            <label class="form-label" for="{{ form.quantity_notes.id_for_label }}">Order Notes & Customization
+                Details</label>
+            {{ form.quantity_notes }}
+        </div>
+
+        <div  class="gen-style-1d7e9472">
+            <button type="submit" class="btn-primary gen-style-6916c7fc" >Save
+                Booking Changes</button>
+            <a href="{% url 'manage_bookings' %}" class="btn-secondary gen-style-52e31bec" >Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

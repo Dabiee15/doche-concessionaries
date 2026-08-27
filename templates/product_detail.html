@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | Doche Concessionaries{% endblock %}
+
+{% block content %}
+<div
+     class="gen-style-7dcd4089">
+    <div  class="gen-style-360bd3fa">
+        <div  class="gen-style-d85c4e64">
+            <div
+                 class="gen-style-aa0f3b52">
+                <img src="{{ product.get_image_url }}" alt="{{ product.name }}"
+                     class="gen-style-bfd4e9f9">
+            </div>
+            <div  class="gen-style-7248f741">
+                <span class="tag-badge caramel gen-style-5cb72a56" >{{ product.badge_tag
+                    }}</span>
+            </div>
+        </div>
+
+        <div>
+            <span
+                 class="gen-style-10ed3a77">Category:
+                {{ product.category.name }}</span>
+            <h1 class="font-serif gen-style-21d71929" >{{
+                product.name }}</h1>
+            <p  class="gen-style-0ad1815b">{{
+                product.description }}</p>
+
+            <div
+                 class="gen-style-5e36ed39">
+                <div>
+                    <div  class="gen-style-cda9c939">Starting Price</div>
+                    <div  class="gen-style-2841e5c7">N{{ product.starting_price
+                        }}</div>
+                </div>
+                <div  class="gen-style-7851dbc0">
+                    <div  class="gen-style-cda9c939">Availability</div>
+                    <div  class="gen-style-32b14e66">In Stock / Fresh Baked</div>
+                </div>
+            </div>
+
+            <div  class="gen-style-951c88f9">
+                <a href="{% url 'booking' %}?product={{ product.id }}" class="btn-primary gen-style-6916c7fc"
+                   >
+                    <span>Schedule Order for {{ product.name }}</span>
+                </a>
+                <a href="{% url 'product_list' %}" class="btn-secondary gen-style-cbebc18e" >Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if related_products %}
+<div  class="gen-style-bad75b13">
+    <h3 class="scribble-title gen-style-fdbf180f" >You Might Also Love</h3>
+    <div class="bento-grid">
+        {% for r in related_products %}
+        <div class="bento-card bento-span-4">
+            <div class="bento-img-wrapper">
+                <img src="{{ r.get_image_url }}" alt="{{ r.name }}">
+            </div>
+            <div class="bento-body">
+                <h3>{{ r.name }}</h3>
+                <p>{{ r.description|truncatewords:10 }}</p>
+            </div>
+            <div class="bento-footer">
+                <div class="price-tag">N{{ r.starting_price }}</div>
+                <a href="{% url 'product_detail' r.pk %}" class="btn-card-action">View Item</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

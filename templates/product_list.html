@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Product Catalog | Doche Concessionaries{% endblock %}
+
+{% block content %}
+<div  class="gen-style-2a8646dc">
+    <span class="tag-badge">Explore Our Menu</span>
+    <h2 class="scribble-title gen-style-07c308b0" >The Full Confectionery Catalog</h2>
+    <p  class="gen-style-bd4641ce">Discover our collection of custom cakes, deep-fried treats, and crunchy jar snacks.</p>
+
+    <!-- Search & Filter Form -->
+    <form method="GET" action="{% url 'product_list' %}"  class="gen-style-3eca943e">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search products (e.g. Cupcakes, Chin Chin)..." class="form-input gen-style-49cdf874" >
+        {% if selected_category %}
+        <input type="hidden" name="category" value="{{ selected_category }}">
+        {% endif %}
+        <button type="submit" class="btn-primary gen-style-9be3106b" >Search</button>
+    </form>
+
+    <!-- Category Tabs -->
+    <div  class="gen-style-b8574656">
+        <a href="{% url 'product_list' %}" class="btn-secondary {% if not selected_category %}active{% endif %} gen-style-868c2145" >All Items</a>
+        {% for cat in categories %}
+        <a href="{% url 'product_list' %}?category={{ cat.slug }}" class="btn-secondary gen-style-56b8d197" >{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Product Grid -->
+<div class="bento-grid">
+    {% for product in products %}
+    <div class="bento-card bento-span-4">
+        <div class="bento-img-wrapper">
+            <div class="bento-badge-pos">
+                <span class="tag-badge caramel">{{ product.badge_tag }}</span>
+            </div>
+            <img src="{{ product.get_image_url }}" alt="{{ product.name }}">
+        </div>
+        <div class="bento-body">
+            <h3><a href="{% url 'product_detail' product.pk %}"  class="gen-style-038e54a3">{{ product.name }}</a></h3>
+            <p>{{ product.description }}</p>
+        </div>
+        <div class="bento-footer">
+            <div class="price-tag">N{{ product.starting_price }}</div>
+            <div  class="gen-style-13262f5a">
+                <a href="{% url 'product_detail' product.pk %}" class="btn-secondary gen-style-eb645544" >Details</a>
+                <a href="{% url 'booking' %}?product={{ product.id }}" class="btn-card-action">Schedule</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div  class="gen-style-8e532104">
+        <h3>No products found matching your search.</h3>
+        <p  class="gen-style-57acfc22">Try clearing filters or search terms.</p>
+        <a href="{% url 'product_list' %}" class="btn-primary gen-style-ed83c9f1" >View All Catalog Items</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
