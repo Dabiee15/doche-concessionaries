@@ -846,7 +846,13 @@ body {
   display: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .site-header {
+    background: #1A0A05 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
   .hamburger {
     display: flex;
   }
