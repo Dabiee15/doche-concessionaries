@@ -36,7 +36,7 @@
                 <div class="detail-cart-label">Select Quantity for Bulk Order</div>
                 <div class="detail-qty-row">
                     <button class="detail-qty-btn" onclick="document.getElementById('detail-qty').value=Math.max(1,+document.getElementById('detail-qty').value-1)">−</button>
-                    <input type="number" id="detail-qty" class="detail-qty-input" value="1" min="1" max="999">
+                    <input type="number" id="detail-qty" class="detail-qty-input" value="1" min="1" max="999" title="Quantity for {{ product.name }}" aria-label="Quantity">
                     <button class="detail-qty-btn" onclick="document.getElementById('detail-qty').value=+document.getElementById('detail-qty').value+1">+</button>
                 </div>
                 <div class="detail-subtotal" id="detailSubtotal">Subtotal: ₦{{ product.starting_price }}</div>

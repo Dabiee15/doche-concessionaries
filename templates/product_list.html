@@ -48,7 +48,7 @@
         <div class="card-cart-row">
             <div class="card-qty-ctrl">
                 <button class="card-qty-btn" onclick="this.nextElementSibling.value=Math.max(1,+this.nextElementSibling.value-1)">−</button>
-                <input type="number" class="card-qty-input" value="1" min="1" max="999" id="qty-{{ product.id }}">
+                <input type="number" class="card-qty-input" value="1" min="1" max="999" id="qty-{{ product.id }}" title="Quantity for {{ product.name }}" aria-label="Quantity">
                 <button class="card-qty-btn" onclick="this.previousElementSibling.value=+this.previousElementSibling.value+1">+</button>
             </div>
             <button class="btn-add-cart"

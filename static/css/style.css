@@ -1312,8 +1312,9 @@ body {
   border-color: var(--caramel-border);
 }
 
-/* Badge showing item count */
+/* Badge showing item count — hidden by default, shown by JS */
 .cart-count-badge {
+  display: none;
   position: absolute;
   top: -6px;
   right: -6px;
@@ -1324,7 +1325,6 @@ body {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid var(--header-bg);
@@ -1590,6 +1590,7 @@ body {
   background: var(--card-bg);
   color: var(--text-main);
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 .card-qty-input::-webkit-inner-spin-button,
 .card-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; }
@@ -1643,6 +1644,7 @@ body {
   background: var(--card-bg);
   color: var(--text-main);
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 .detail-qty-input::-webkit-inner-spin-button,
 .detail-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; }
