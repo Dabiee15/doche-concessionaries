@@ -23,7 +23,7 @@
             <div class="product-price-row">
                 <div>
                     <div class="product-price-label">Starting Price</div>
-                    <div class="product-price-val">N{{ product.starting_price }}</div>
+                    <div class="product-price-val">₦{{ product.starting_price }}</div>
                 </div>
                 <div>
                     <div class="product-avail-label">Availability</div>
@@ -31,9 +31,24 @@
                 </div>
             </div>
 
+            <!-- Bulk Order / Add to Cart -->
+            <div class="detail-cart-box">
+                <div class="detail-cart-label">Select Quantity for Bulk Order</div>
+                <div class="detail-qty-row">
+                    <button class="detail-qty-btn" onclick="document.getElementById('detail-qty').value=Math.max(1,+document.getElementById('detail-qty').value-1)">−</button>
+                    <input type="number" id="detail-qty" class="detail-qty-input" value="1" min="1" max="999">
+                    <button class="detail-qty-btn" onclick="document.getElementById('detail-qty').value=+document.getElementById('detail-qty').value+1">+</button>
+                </div>
+                <div class="detail-subtotal" id="detailSubtotal">Subtotal: ₦{{ product.starting_price }}</div>
+                <button class="btn-primary detail-add-cart-btn"
+                    onclick="addToCartFromCard({{ product.id }}, '{{ product.name|escapejs }}', {{ product.starting_price }}, '{{ product.badge_tag|escapejs }}', '{{ product.get_image_url|escapejs }}', 'detail-qty')">
+                    🛒 Add to Order Cart
+                </button>
+            </div>
+
             <div class="product-cta-row">
                 <a href="{% url 'booking' %}?product={{ product.id }}" class="btn-primary product-order-btn">
-                    <span>Schedule Order for {{ product.name }}</span>
+                    <span>📅 Schedule Event Order</span>
                 </a>
                 <a href="{% url 'product_list' %}" class="btn-secondary product-back-btn">Back</a>
             </div>
@@ -55,7 +70,7 @@
                 <p>{{ r.description|truncatewords:10 }}</p>
             </div>
             <div class="bento-footer">
-                <div class="price-tag">N{{ r.starting_price }}</div>
+                <div class="price-tag">₦{{ r.starting_price }}</div>
                 <a href="{% url 'product_detail' r.pk %}" class="btn-card-action">View Item</a>
             </div>
         </div>
@@ -63,4 +78,20 @@
     </div>
 </div>
 {% endif %}
+
+<script>
+// Live subtotal update for the detail qty input
+(function(){
+  const price = {{ product.starting_price }};
+  const qtyInput = document.getElementById('detail-qty');
+  const subtotalEl = document.getElementById('detailSubtotal');
+  if (qtyInput && subtotalEl) {
+    qtyInput.addEventListener('input', function() {
+      const qty = Math.max(1, parseInt(this.value) || 1);
+      const total = price * qty;
+      subtotalEl.textContent = 'Subtotal: ₦' + total.toLocaleString('en-NG', {minimumFractionDigits:2});
+    });
+  }
+})();
+</script>
 {% endblock %}

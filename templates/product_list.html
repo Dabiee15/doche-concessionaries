@@ -7,7 +7,7 @@
 <div class="catalog-header-wrap">
     <span class="tag-badge">Explore Our Menu</span>
     <h2 class="scribble-title catalog-title">The Full Confectionery Catalog</h2>
-    <p class="catalog-subtitle">Discover our collection of custom cakes, deep-fried treats, and crunchy jar snacks.</p>
+    <p class="catalog-subtitle">Discover our collection of custom cakes, deep-fried treats, and crunchy jar snacks. Add items to your order and schedule delivery.</p>
 
     <!-- Search & Filter Form -->
     <form method="GET" action="{% url 'product_list' %}" class="catalog-search-form">
@@ -39,14 +39,26 @@
         </div>
         <div class="bento-body">
             <h3><a href="{% url 'product_detail' product.pk %}" class="product-name-link">{{ product.name }}</a></h3>
-            <p>{{ product.description }}</p>
+            <p>{{ product.description|truncatewords:12 }}</p>
         </div>
         <div class="bento-footer">
             <div class="price-tag">N{{ product.starting_price }}</div>
-            <div class="bento-actions">
-                <a href="{% url 'product_detail' product.pk %}" class="btn-secondary bento-detail-btn">Details</a>
-                <a href="{% url 'booking' %}?product={{ product.id }}" class="btn-card-action">Schedule</a>
+        </div>
+        <!-- Add to Cart Row -->
+        <div class="card-cart-row">
+            <div class="card-qty-ctrl">
+                <button class="card-qty-btn" onclick="this.nextElementSibling.value=Math.max(1,+this.nextElementSibling.value-1)">−</button>
+                <input type="number" class="card-qty-input" value="1" min="1" max="999" id="qty-{{ product.id }}">
+                <button class="card-qty-btn" onclick="this.previousElementSibling.value=+this.previousElementSibling.value+1">+</button>
             </div>
+            <button class="btn-add-cart"
+                onclick="addToCartFromCard({{ product.id }}, '{{ product.name|escapejs }}', {{ product.starting_price }}, '{{ product.badge_tag|escapejs }}', '{{ product.get_image_url|escapejs }}', 'qty-{{ product.id }}')">
+                Add to Order
+            </button>
+        </div>
+        <div class="bento-actions-row">
+            <a href="{% url 'product_detail' product.pk %}" class="btn-secondary bento-detail-btn">Details</a>
+            <a href="{% url 'booking' %}?product={{ product.id }}" class="btn-card-action">Event Schedule</a>
         </div>
     </div>
     {% empty %}
