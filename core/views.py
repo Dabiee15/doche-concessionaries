@@ -1,8 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.db.models import Q
+from django.conf import settings
 from .models import Product, Category, Service, Booking
 from .forms import BookingForm
+
+MANAGE_PASSWORD = getattr(settings, 'MANAGE_PORTAL_PASSWORD', 'doche-admin-2026')
+
+def _check_manage_auth(request):
+    """Return True if the owner is authenticated to the manage portal."""
+    return request.session.get('manage_auth') is True
+
 
 def home(request):
     categories = Category.objects.all()
@@ -94,7 +102,28 @@ def booking_success(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
     return render(request, 'booking_success.html', {'booking': booking})
 
+def manage_login(request):
+    """Simple password gate for the owner's manage portal."""
+    if _check_manage_auth(request):
+        return redirect('manage_bookings')
+    error = None
+    if request.method == 'POST':
+        password = request.POST.get('password', '')
+        if password == MANAGE_PASSWORD:
+            request.session['manage_auth'] = True
+            return redirect('manage_bookings')
+        else:
+            error = 'Incorrect password. Please try again.'
+    return render(request, 'manage_login.html', {'error': error})
+
+def manage_logout(request):
+    request.session.pop('manage_auth', None)
+    return redirect('manage_login')
+
 def manage_bookings(request):
+    if not _check_manage_auth(request):
+        return redirect('manage_login')
+
     status_filter = request.GET.get('status', '')
     if request.method == 'POST':
         booking_id = request.POST.get('booking_id')
@@ -116,6 +145,8 @@ def manage_bookings(request):
     })
 
 def edit_booking(request, pk):
+    if not _check_manage_auth(request):
+        return redirect('manage_login')
     booking = get_object_or_404(Booking, pk=pk)
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=booking)

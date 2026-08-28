@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.conf import settings
+from django.templatetags.static import static as static_url
+import os
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -28,15 +31,12 @@ class Product(models.Model):
     @property
     def get_image_url(self):
         if self.image:
-            import os
-            from django.conf import settings
             base_name = os.path.basename(self.image.name)
-            # If we committed a copy of this image to static assets, ALWAYS prefer it.
-            # Static assets are served via WhiteNoise in production, whereas media files are 404.
-            static_path = os.path.join(settings.BASE_DIR, 'static', 'images', base_name)
-            if os.path.exists(static_path):
-                from django.templatetags.static import static
-                return static(f'images/{base_name}')
+            # Check staticfiles/ (collectstatic output used in production by WhiteNoise)
+            for candidate_dir in ['staticfiles', 'static']:
+                candidate = os.path.join(settings.BASE_DIR, candidate_dir, 'images', base_name)
+                if os.path.exists(candidate):
+                    return static_url(f'images/{base_name}')
             return self.image.url
         if self.image_url:
             return self.image_url
