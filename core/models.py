@@ -32,13 +32,20 @@ class Product(models.Model):
     def get_image_url(self):
         if self.image:
             base_name = os.path.basename(self.image.name)
-            # Check staticfiles/ (collectstatic output used in production by WhiteNoise)
+            # Check staticfiles/ then static/ source for committed images
             for candidate_dir in ['staticfiles', 'static']:
                 candidate = os.path.join(settings.BASE_DIR, candidate_dir, 'images', base_name)
                 if os.path.exists(candidate):
                     return static_url(f'images/{base_name}')
             return self.image.url
         if self.image_url:
+            # Remap stale /media/products/ references to static committed copies
+            if self.image_url.startswith('/media/products/'):
+                base_name = os.path.basename(self.image_url)
+                for candidate_dir in ['staticfiles', 'static']:
+                    candidate = os.path.join(settings.BASE_DIR, candidate_dir, 'images', base_name)
+                    if os.path.exists(candidate):
+                        return static_url(f'images/{base_name}')
             return self.image_url
         return 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80'
 
