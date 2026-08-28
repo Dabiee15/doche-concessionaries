@@ -23,7 +23,7 @@
             <div class="product-price-row">
                 <div>
                     <div class="product-price-label">Starting Price</div>
-                    <div class="product-price-val">₦{{ product.starting_price }}</div>
+                    <div class="product-price-val">&#8358;{{ product.starting_price }}</div>
                 </div>
                 <div>
                     <div class="product-avail-label">Availability</div>
@@ -35,20 +35,33 @@
             <div class="detail-cart-box">
                 <div class="detail-cart-label">Select Quantity for Bulk Order</div>
                 <div class="detail-qty-row">
-                    <button class="detail-qty-btn" onclick="document.getElementById('detail-qty').value=Math.max(1,+document.getElementById('detail-qty').value-1)">−</button>
-                    <input type="number" id="detail-qty" class="detail-qty-input" value="1" min="1" max="999" title="Quantity for {{ product.name }}" aria-label="Quantity">
-                    <button class="detail-qty-btn" onclick="document.getElementById('detail-qty').value=+document.getElementById('detail-qty').value+1">+</button>
+                    <button class="detail-qty-btn" type="button" aria-label="Decrease"
+                        onclick="var i=document.getElementById('detail-qty');i.value=Math.max(1,+i.value-1);updateDetailSubtotal()">&#8722;</button>
+                    <input type="number" id="detail-qty" class="detail-qty-input"
+                        value="1" min="1" max="999"
+                        title="Quantity for {{ product.name }}"
+                        aria-label="Quantity"
+                        oninput="updateDetailSubtotal()">
+                    <button class="detail-qty-btn" type="button" aria-label="Increase"
+                        onclick="var i=document.getElementById('detail-qty');i.value=+i.value+1;updateDetailSubtotal()">&#43;</button>
                 </div>
-                <div class="detail-subtotal" id="detailSubtotal">Subtotal: ₦{{ product.starting_price }}</div>
-                <button class="btn-primary detail-add-cart-btn"
-                    onclick="addToCartFromCard({{ product.id }}, '{{ product.name|escapejs }}', {{ product.starting_price }}, '{{ product.badge_tag|escapejs }}', '{{ product.get_image_url|escapejs }}', 'detail-qty')">
-                    🛒 Add to Order Cart
+                <div class="detail-subtotal" id="detailSubtotal">Subtotal: &#8358;{{ product.starting_price }}</div>
+                <!-- data attrs carry Django values cleanly into JS -->
+                <button class="btn-primary detail-add-cart-btn" type="button"
+                    data-id="{{ product.id }}"
+                    data-name="{{ product.name|escapejs }}"
+                    data-price="{{ product.starting_price }}"
+                    data-badge="{{ product.badge_tag|escapejs }}"
+                    data-image="{{ product.get_image_url|escapejs }}"
+                    data-qty="detail-qty"
+                    onclick="addToCartFromDataset(this)">
+                    &#128722; Add to Order Cart
                 </button>
             </div>
 
             <div class="product-cta-row">
                 <a href="{% url 'booking' %}?product={{ product.id }}" class="btn-primary product-order-btn">
-                    <span>📅 Schedule Event Order</span>
+                    <span>&#128197; Schedule Event Order</span>
                 </a>
                 <a href="{% url 'product_list' %}" class="btn-secondary product-back-btn">Back</a>
             </div>
@@ -70,7 +83,7 @@
                 <p>{{ r.description|truncatewords:10 }}</p>
             </div>
             <div class="bento-footer">
-                <div class="price-tag">₦{{ r.starting_price }}</div>
+                <div class="price-tag">&#8358;{{ r.starting_price }}</div>
                 <a href="{% url 'product_detail' r.pk %}" class="btn-card-action">View Item</a>
             </div>
         </div>
@@ -80,18 +93,12 @@
 {% endif %}
 
 <script>
-// Live subtotal update for the detail qty input
-(function(){
-  const price = {{ product.starting_price }};
-  const qtyInput = document.getElementById('detail-qty');
-  const subtotalEl = document.getElementById('detailSubtotal');
-  if (qtyInput && subtotalEl) {
-    qtyInput.addEventListener('input', function() {
-      const qty = Math.max(1, parseInt(this.value) || 1);
-      const total = price * qty;
-      subtotalEl.textContent = 'Subtotal: ₦' + total.toLocaleString('en-NG', {minimumFractionDigits:2});
-    });
-  }
-})();
+var _detailPrice = parseFloat("{{ product.starting_price }}");
+function updateDetailSubtotal() {
+    var qty = Math.max(1, parseInt(document.getElementById('detail-qty').value) || 1);
+    var total = _detailPrice * qty;
+    document.getElementById('detailSubtotal').textContent =
+        'Subtotal: \u20A6' + total.toLocaleString('en-NG', {minimumFractionDigits: 2});
+}
 </script>
 {% endblock %}

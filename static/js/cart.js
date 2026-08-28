@@ -53,6 +53,15 @@ function addToCartFromCard(id, name, price, badge, imageUrl, qtyInputId) {
   showCartToast(name);
 }
 
+// Helper: reads all product data from button's data-* attributes (no Django inline JS)
+function addToCartFromDataset(btn) {
+  const d = btn.dataset;
+  addToCartFromCard(
+    parseInt(d.id), d.name, parseFloat(d.price),
+    d.badge, d.image, d.qty
+  );
+}
+
 function removeFromCart(id) {
   const cart = getCart().filter(item => item.id !== id);
   saveCart(cart);

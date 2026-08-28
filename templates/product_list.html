@@ -9,16 +9,12 @@
     <h2 class="scribble-title catalog-title">The Full Confectionery Catalog</h2>
     <p class="catalog-subtitle">Discover our collection of custom cakes, deep-fried treats, and crunchy jar snacks. Add items to your order and schedule delivery.</p>
 
-    <!-- Search & Filter Form -->
     <form method="GET" action="{% url 'product_list' %}" class="catalog-search-form">
         <input type="text" name="q" value="{{ query }}" placeholder="Search products (e.g. Cupcakes, Chin Chin)..." class="form-input catalog-search-input">
-        {% if selected_category %}
-        <input type="hidden" name="category" value="{{ selected_category }}">
-        {% endif %}
+        {% if selected_category %}<input type="hidden" name="category" value="{{ selected_category }}">{% endif %}
         <button type="submit" class="btn-primary catalog-search-btn">Search</button>
     </form>
 
-    <!-- Category Tabs -->
     <div class="catalog-tabs">
         <a href="{% url 'product_list' %}" class="btn-secondary catalog-tab-btn {% if not selected_category %}btn-active-filter{% endif %}">All Items</a>
         {% for cat in categories %}
@@ -27,7 +23,6 @@
     </div>
 </div>
 
-<!-- Product Grid -->
 <div class="bento-grid">
     {% for product in products %}
     <div class="bento-card bento-span-4">
@@ -42,17 +37,28 @@
             <p>{{ product.description|truncatewords:12 }}</p>
         </div>
         <div class="bento-footer">
-            <div class="price-tag">N{{ product.starting_price }}</div>
+            <div class="price-tag">&#8358;{{ product.starting_price }}</div>
         </div>
-        <!-- Add to Cart Row -->
+        <!-- Add to Cart row — data attrs avoid IDE JS parse errors with Django tags -->
         <div class="card-cart-row">
             <div class="card-qty-ctrl">
-                <button class="card-qty-btn" onclick="this.nextElementSibling.value=Math.max(1,+this.nextElementSibling.value-1)">−</button>
-                <input type="number" class="card-qty-input" value="1" min="1" max="999" id="qty-{{ product.id }}" title="Quantity for {{ product.name }}" aria-label="Quantity">
-                <button class="card-qty-btn" onclick="this.previousElementSibling.value=+this.previousElementSibling.value+1">+</button>
+                <button class="card-qty-btn" type="button" aria-label="Decrease quantity"
+                    onclick="this.nextElementSibling.value=Math.max(1,+this.nextElementSibling.value-1)">&#8722;</button>
+                <input type="number" class="card-qty-input" value="1" min="1" max="999"
+                    id="qty-{{ product.id }}"
+                    title="Quantity for {{ product.name }}"
+                    aria-label="Quantity">
+                <button class="card-qty-btn" type="button" aria-label="Increase quantity"
+                    onclick="this.previousElementSibling.value=+this.previousElementSibling.value+1">&#43;</button>
             </div>
-            <button class="btn-add-cart"
-                onclick="addToCartFromCard({{ product.id }}, '{{ product.name|escapejs }}', {{ product.starting_price }}, '{{ product.badge_tag|escapejs }}', '{{ product.get_image_url|escapejs }}', 'qty-{{ product.id }}')">
+            <button class="btn-add-cart" type="button"
+                data-id="{{ product.id }}"
+                data-name="{{ product.name|escapejs }}"
+                data-price="{{ product.starting_price }}"
+                data-badge="{{ product.badge_tag|escapejs }}"
+                data-image="{{ product.get_image_url|escapejs }}"
+                data-qty="qty-{{ product.id }}"
+                onclick="addToCartFromDataset(this)">
                 Add to Order
             </button>
         </div>
