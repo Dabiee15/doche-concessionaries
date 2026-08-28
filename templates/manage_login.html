@@ -4,23 +4,21 @@
 {% block title %}Management Portal Login | Doche Concessionaries{% endblock %}
 
 {% block content %}
-<div style="min-height:70vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
-  <div class="booking-card" style="max-width:420px;width:100%;padding:2.5rem;">
-    <div style="text-align:center;margin-bottom:2rem;">
-      <span class="tag-badge caramel" style="margin-bottom:1rem;display:inline-block;">🔒 Secure Access</span>
-      <h1 class="font-serif" style="font-size:1.8rem;margin-bottom:0.5rem;">Management Portal</h1>
-      <p style="color:var(--text-muted);font-size:0.95rem;">Enter your password to access order management.</p>
+<div class="portal-login-wrapper">
+  <div class="booking-card portal-login-card">
+    <div class="portal-login-header">
+      <span class="tag-badge caramel portal-login-badge">🔒 Secure Access</span>
+      <h1 class="font-serif portal-login-title">Management Portal</h1>
+      <p class="portal-login-subtitle">Enter your password to access order management.</p>
     </div>
 
     {% if error %}
-    <div style="background:rgba(220,53,69,0.1);border:1px solid rgba(220,53,69,0.3);border-radius:8px;padding:0.85rem 1rem;margin-bottom:1.25rem;color:#dc3545;font-size:0.9rem;">
-      ⚠️ {{ error }}
-    </div>
+    <div class="portal-error-alert">⚠️ {{ error }}</div>
     {% endif %}
 
     <form method="POST" action="{% url 'manage_login' %}">
       {% csrf_token %}
-      <div class="form-group" style="margin-bottom:1.5rem;">
+      <div class="form-group portal-login-field">
         <label for="password" class="form-label">Access Password</label>
         <input
           type="password"
@@ -31,17 +29,14 @@
           autocomplete="current-password"
           autofocus
           required
-          style="width:100%;"
         >
       </div>
-      <button type="submit" class="btn-primary" style="width:100%;padding:0.85rem;font-size:1rem;">
+      <button type="submit" class="btn-primary portal-login-submit">
         Access Portal →
       </button>
     </form>
 
-    <p style="text-align:center;margin-top:1.5rem;color:var(--text-muted);font-size:0.8rem;">
-      For Doche Concessionaries Staff Only
-    </p>
+    <p class="portal-login-footer">For Doche Concessionaries Staff Only</p>
   </div>
 </div>
 {% endblock %}
