@@ -862,31 +862,29 @@ body {
     font-size: 0.65rem;
   }
 
-  /* Slide in from RIGHT — GPU transform, always pixel-perfect, no blur */
+  /* Slide in from RIGHT — crisp, no blur, fully isolated stacking context */
   .main-nav {
     position: fixed;
     top: 0;
     right: 0;
     left: auto;
-    width: 78%;
+    width: 80%;
     max-width: 300px;
     height: 100vh;
-    /* Fully opaque — no backdrop-filter which causes content blur */
-    background: #1C0905;
+    background: #1C0905; /* solid opaque — no backdrop-filter */
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
     padding: 0;
-    padding-top: 70px;
+    padding-top: 68px;
     gap: 0;
-    z-index: 200;
-    box-shadow: -6px 0 32px rgba(0, 0, 0, 0.6);
+    z-index: 1000; /* above cart panel, overlays, everything */
+    isolation: isolate; /* own stacking context — immune to external filters */
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.7);
     border-left: 1px solid rgba(245, 158, 11, 0.2);
     overflow-y: auto;
-    /* GPU-accelerated slide — crisp at all pixel densities */
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
+    transform: translateX(110%); /* 110% ensures fully off-screen */
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .main-nav.is-open {
@@ -925,20 +923,18 @@ body {
     width: calc(100% - 48px);
   }
 
-  /* Overlay behind nav when open */
+  /* Overlay behind nav — plain scrim only, NO backdrop-filter (prevents nav blur) */
   .nav-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-    z-index: 150;
+    background: rgba(0, 0, 0, 0.58);
+    z-index: 999; /* just below nav (1000) */
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.35s ease, visibility 0.35s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
   }
 
   .nav-overlay.is-visible {
