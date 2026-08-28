@@ -5,37 +5,25 @@
 
 {% block content %}
 <div class="manage-card">
-    <div
-         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
+    <div class="manage-header">
         <div>
             <span class="tag-badge caramel">Management Portal</span>
-            <h2 class="font-serif" style="font-size: 2rem; color: var(--chocolate); margin-top: 6px;" >Scheduled Bookings
-                Portal</h2>
-            <p  style="color: var(--text-muted); font-size: 0.9rem;">Review incoming event reservations, edit order
-                details, and manage schedule availability.</p>
+            <h2 class="font-serif manage-heading">Scheduled Bookings Portal</h2>
+            <p class="manage-sub">Review incoming event reservations, edit order details, and manage schedule availability.</p>
         </div>
 
-        <div  style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <a href="/admin/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;"
-               >Django Admin Panel</a>
-            <div  style="display: flex; gap: 4px;">
-                <a href="{% url 'manage_bookings' %}"
-                    class="btn-secondary {% if not current_filter %}btn-active-filter{% endif %}" style="padding: 8px 12px; font-size: 0.8rem;"
-                   >All</a>
-                <a href="{% url 'manage_bookings' %}?status=PENDING"
-                    class="btn-secondary {% if current_filter == 'PENDING' %}btn-active-filter{% endif %} gen-style-f0d3a900"
-                   >Pending</a>
-                <a href="{% url 'manage_bookings' %}?status=CONFIRMED"
-                    class="btn-secondary {% if current_filter == 'CONFIRMED' %}btn-active-filter{% endif %} gen-style-f0d3a900"
-                   >Confirmed</a>
-                <a href="{% url 'manage_bookings' %}?status=COMPLETED"
-                    class="btn-secondary {% if current_filter == 'COMPLETED' %}btn-active-filter{% endif %} gen-style-f0d3a900"
-                   >Completed</a>
+        <div class="manage-controls">
+            <a href="/admin/" target="_blank" rel="noopener noreferrer" class="btn-primary manage-admin-btn">Django Admin Panel</a>
+            <div class="manage-filter-group">
+                <a href="{% url 'manage_bookings' %}" class="btn-secondary manage-filter-btn {% if not current_filter %}btn-active-filter{% endif %}">All</a>
+                <a href="{% url 'manage_bookings' %}?status=PENDING" class="btn-secondary manage-filter-btn {% if current_filter == 'PENDING' %}btn-active-filter{% endif %}">Pending</a>
+                <a href="{% url 'manage_bookings' %}?status=CONFIRMED" class="btn-secondary manage-filter-btn {% if current_filter == 'CONFIRMED' %}btn-active-filter{% endif %}">Confirmed</a>
+                <a href="{% url 'manage_bookings' %}?status=COMPLETED" class="btn-secondary manage-filter-btn {% if current_filter == 'COMPLETED' %}btn-active-filter{% endif %}">Completed</a>
             </div>
         </div>
     </div>
 
-    <div  style="overflow-x: auto;">
+    <div class="table-responsive">
         <table class="data-table">
             <thead>
                 <tr>
@@ -43,7 +31,7 @@
                     <th>Customer Name</th>
                     <th>Contact Info</th>
                     <th>Service / Product</th>
-                    <th>Date & Time</th>
+                    <th>Date &amp; Time</th>
                     <th>Status</th>
                     <th>Est. Total</th>
                     <th>Actions</th>
@@ -56,40 +44,33 @@
                     <td>{{ b.customer_name }}</td>
                     <td>
                         <div>Phone: {{ b.customer_phone }}</div>
-                        <div  style="font-size: 0.75rem; color: var(--text-muted);">{{ b.customer_email }}</div>
+                        <div class="table-sub-text-sm">{{ b.customer_email }}</div>
                     </td>
                     <td>
-                        <div  style="font-weight: 600;">{{ b.service.name|default:"Custom Service" }}</div>
-                        <div  style="font-size: 0.8rem; color: var(--text-muted);">{{ b.product.name|default:"Custom
-                            Pack" }}</div>
+                        <div class="table-service-name">{{ b.service.name|default:"Custom Service" }}</div>
+                        <div class="table-product-sub-sm">{{ b.product.name|default:"Custom Pack" }}</div>
                     </td>
                     <td>
-                        <div  style="color: var(--caramel); font-weight: 700;">Date: {{ b.booking_date }}</div>
-                        <div  style="font-size: 0.8rem;">Time: {{ b.booking_time }}</div>
+                        <div class="table-date-highlight">Date: {{ b.booking_date }}</div>
+                        <div class="table-time-sm">Time: {{ b.booking_time }}</div>
                     </td>
                     <td>
                         <span class="status-badge status-{{ b.status }}">{{ b.get_status_display }}</span>
                     </td>
-                    <td  style="font-weight: 700; color: var(--chocolate);">N{{ b.estimated_price }}</td>
+                    <td class="table-price-bold">N{{ b.estimated_price }}</td>
                     <td>
-                        <div  style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-                            <a href="{% url 'edit_booking' b.id %}" class="btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; border-color: var(--caramel); color: var(--caramel);"
-                               >Edit
-                                Details</a>
-                            <form method="POST" action="{% url 'manage_bookings' %}"  style="display: inline-block;">
+                        <div class="table-action-group">
+                            <a href="{% url 'edit_booking' b.id %}" class="btn-secondary table-edit-btn">Edit Details</a>
+                            <form method="POST" action="{% url 'manage_bookings' %}" class="table-status-form">
                                 {% csrf_token %}
                                 <input type="hidden" name="booking_id" value="{{ b.id }}">
                                 <select name="status" id="status-select-{{ b.id }}" title="Change Booking Status"
-                                    class="form-select" style="padding: 4px 8px; font-size: 0.75rem;" 
+                                    class="form-select table-status-select"
                                     onchange="this.form.submit()">
-                                    <option value="PENDING" {% if b.status=='PENDING' %}selected{% endif %}>Pending
-                                    </option>
-                                    <option value="CONFIRMED" {% if b.status=='CONFIRMED' %}selected{% endif %}>Confirm
-                                    </option>
-                                    <option value="COMPLETED" {% if b.status=='COMPLETED' %}selected{% endif %}>Complete
-                                    </option>
-                                    <option value="CANCELLED" {% if b.status=='CANCELLED' %}selected{% endif %}>Cancel
-                                    </option>
+                                    <option value="PENDING" {% if b.status == 'PENDING' %}selected{% endif %}>Pending</option>
+                                    <option value="CONFIRMED" {% if b.status == 'CONFIRMED' %}selected{% endif %}>Confirm</option>
+                                    <option value="COMPLETED" {% if b.status == 'COMPLETED' %}selected{% endif %}>Complete</option>
+                                    <option value="CANCELLED" {% if b.status == 'CANCELLED' %}selected{% endif %}>Cancel</option>
                                 </select>
                             </form>
                         </div>
@@ -97,8 +78,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="8"  style="text-align: center; padding: 40px;">No bookings found. <a
-                            href="{% url 'booking' %}">Create a new booking test slot -></a></td>
+                    <td colspan="8" class="table-empty-cell">No bookings found. <a href="{% url 'booking' %}">Create a new booking test slot -></a></td>
                 </tr>
                 {% endfor %}
             </tbody>

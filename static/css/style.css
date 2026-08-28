@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
   --bg-color: #FAF6F0;
@@ -56,7 +56,7 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background-color: var(--bg-color);
   background-image: var(--bg-pattern);
   background-attachment: fixed;
@@ -122,7 +122,7 @@ body {
 .logo-badge {
   background: linear-gradient(135deg, var(--caramel), var(--caramel-hover));
   color: #FFF;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
   font-size: 1.3rem;
   width: 40px;
@@ -135,7 +135,7 @@ body {
 }
 
 .brand-info h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: -0.3px;
@@ -790,26 +790,140 @@ body {
   }
 }
 
+/* ========================================
+   ANIMATED HAMBURGER MENU
+   ======================================== */
+.hamburger {
+  display: none; /* hidden on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 300;
+  flex-direction: column;
+  gap: 5px;
+  width: 32px;
+}
+
+.hamburger-bar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: #FFF;
+  border-radius: 4px;
+  transition: transform 0.35s cubic-bezier(0.77, 0, 0.18, 1),
+              opacity 0.25s ease,
+              background 0.3s ease;
+  transform-origin: center;
+}
+
+/* Morphing X animation */
+.hamburger.is-active .hamburger-bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+  background: var(--caramel-hover);
+}
+.hamburger.is-active .hamburger-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.is-active .hamburger-bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+  background: var(--caramel-hover);
+}
+
+/* Nav overlay backdrop */
+.nav-overlay {
+  display: none;
+}
+
 @media (max-width: 640px) {
-  .header-container {
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    text-align: center;
-    padding: 16px 12px;
-  }
-
-  .main-nav {
+  .hamburger {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 100%;
-    gap: 8px;
   }
 
-  .nav-link {
-    font-size: 0.85rem;
-    padding: 8px 12px;
+  .header-container {
+    padding: 12px 16px;
+  }
+
+  .brand-info h1 {
+    font-size: 1.1rem;
+  }
+  .brand-info p {
+    font-size: 0.65rem;
+  }
+
+  /* Full-screen slide-in nav */
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 75%;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--header-bg);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 80px 24px 40px;
+    gap: 0;
+    z-index: 200;
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.4);
+    transition: right 0.4s cubic-bezier(0.77, 0, 0.18, 1);
+    overflow-y: auto;
+  }
+
+  .main-nav.is-open {
+    right: 0;
+  }
+
+  .main-nav .nav-link {
+    font-size: 1.05rem;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0;
+    transition: background 0.2s, padding-left 0.3s;
+  }
+
+  .main-nav .nav-link:hover,
+  .main-nav .nav-link.active {
+    padding-left: 24px;
+    background: rgba(245, 158, 11, 0.15);
+  }
+
+  .main-nav .btn-book-header {
+    margin-top: 12px;
+    text-align: center;
+    border-radius: 10px !important;
+    border-bottom: none;
+  }
+
+  .main-nav .btn-theme-toggle {
+    margin-top: 16px;
+    justify-content: center;
+  }
+
+  /* Overlay behind nav when open */
+  .nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    z-index: 150;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+  }
+
+  .nav-overlay.is-visible {
+    display: block;
+    opacity: 1;
+    visibility: visible;
   }
 
   .bento-span-4,
@@ -974,7 +1088,14 @@ body {
 .related-title { font-size: 1.8rem; margin-bottom: 20px; }
 
 /* Manage Bookings */
-.manage-bookings-table-col { font-size: 0.8rem; }
+.manage-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 16px; }
+.manage-heading { font-size: 2rem; color: var(--chocolate); margin-top: 6px; }
+.manage-sub { color: var(--text-muted); font-size: 0.9rem; }
+.manage-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.manage-admin-btn { padding: 8px 16px; font-size: 0.85rem; }
+.manage-filter-group { display: flex; gap: 4px; }
+.manage-filter-btn { padding: 8px 12px; font-size: 0.8rem; }
+.table-responsive { overflow-x: auto; }
 .table-sub-text-sm { font-size: 0.75rem; color: var(--text-muted); }
 .table-service-name { font-weight: 600; }
 .table-product-sub-sm { font-size: 0.8rem; color: var(--text-muted); }
@@ -992,4 +1113,7 @@ body {
   .breakdown-grid { grid-template-columns: 1fr; }
   .cta-banner { padding: 30px 20px; }
   .cta-heading { font-size: 1.7rem; }
+  .manage-header { flex-direction: column; align-items: flex-start; }
+  .manage-controls { width: 100%; }
+  .manage-filter-group { flex-wrap: wrap; }
 }

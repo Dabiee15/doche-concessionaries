@@ -25,7 +25,15 @@
                 </div>
             </a>
 
-            <nav class="main-nav">
+            <!-- Hamburger Toggle (mobile only) -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
+
+            <!-- Navigation Overlay for mobile + inline for desktop -->
+            <nav class="main-nav" id="mainNav">
                 <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
                 <a href="{% url 'product_list' %}" class="nav-link {% if request.resolver_match.url_name == 'product_list' %}active{% endif %}">Catalog</a>
                 <a href="{% url 'booking' %}" class="nav-link btn-book-header">Schedule Order</a>

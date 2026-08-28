@@ -103,4 +103,55 @@ document.addEventListener('DOMContentLoaded', function () {
   if (productSelect) productSelect.addEventListener('change', updateNoticeAndPrice);
 
   updateNoticeAndPrice();
+
+  // --- 4. Animated Hamburger Menu (Mobile Nav) ---
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mainNav = document.getElementById('mainNav');
+
+  // Create overlay element dynamically
+  let navOverlay = document.querySelector('.nav-overlay');
+  if (!navOverlay) {
+    navOverlay = document.createElement('div');
+    navOverlay.className = 'nav-overlay';
+    document.body.appendChild(navOverlay);
+  }
+
+  function openNav() {
+    hamburgerBtn.classList.add('is-active');
+    mainNav.classList.add('is-open');
+    navOverlay.classList.add('is-visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    hamburgerBtn.classList.remove('is-active');
+    mainNav.classList.remove('is-open');
+    navOverlay.classList.remove('is-visible');
+    document.body.style.overflow = '';
+  }
+
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', function () {
+      if (mainNav.classList.contains('is-open')) {
+        closeNav();
+      } else {
+        openNav();
+      }
+    });
+  }
+
+  // Close nav on overlay click
+  navOverlay.addEventListener('click', closeNav);
+
+  // Close nav when a nav link is clicked (for mobile SPA-feel)
+  if (mainNav) {
+    mainNav.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', closeNav);
+    });
+  }
+
+  // Close nav on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeNav();
+  });
 });
