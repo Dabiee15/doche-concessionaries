@@ -1,26 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Interactive Scheduler & Order Booking | Doche Concessionaries{% endblock %}
+{% block title %}Interactive Scheduler &amp; Order Booking | Doche Concessionaries{% endblock %}
 
 {% block content %}
-<div  class="gen-style-12a642d2">
-    <div  class="gen-style-7f5ca660">
-        <span class="tag-badge">Event & Order Scheduler Engine</span>
-        <h2 class="scribble-title gen-style-07c308b0" >Reserve Your Confectionery Order</h2>
-        <p  class="gen-style-14be9c87">Select your service, choose your date and time slot,
-            and specify custom requirements.</p>
+<div class="booking-page-wrap">
+    <div class="booking-page-header">
+        <span class="tag-badge">Event &amp; Order Scheduler Engine</span>
+        <h2 class="scribble-title booking-page-title">Reserve Your Confectionery Order</h2>
+        <p class="booking-page-sub">Select your service, choose your date and time slot, and specify custom requirements.</p>
     </div>
 
     <div class="scheduler-card">
-        <div class="scheduler-header gen-style-c5114143"
-           >
+        <div class="scheduler-header">
             <div>
-                <h3 class="font-serif gen-style-fee56f4f" >Scheduling Console</h3>
-                <p  class="gen-style-acb67b42">Slot validation active • Automatic notice
-                    period calculation</p>
+                <h3 class="font-serif scheduler-console-title">Scheduling Console</h3>
+                <p class="scheduler-console-sub">Slot validation active • Automatic notice period calculation</p>
             </div>
-            <div id="notice_badge" class="tag-badge caramel gen-style-fb2a7115" >
+            <div id="notice_badge" class="tag-badge caramel scheduler-notice-badge">
                 Requires min advance notice
             </div>
         </div>
@@ -29,7 +26,7 @@
             {% csrf_token %}
 
             <!-- Service Selection -->
-            <div class="form-group full-width gen-style-dc2cb2da" >
+            <div class="form-group full-width booking-section">
                 <label class="form-label">
                     <span>Step 1: Select Service Type</span>
                 </label>
@@ -39,17 +36,16 @@
                         data-service-id="{{ s.id }}">
                         <h4>{{ s.name }}</h4>
                         <p>{{ s.description|truncatewords:10 }}</p>
-                        <div
-                             class="gen-style-7a013177">
-                            <span  class="gen-style-09d1bf64">Base N{{ s.base_price }}</span>
-                            <span  class="gen-style-d21cb190">Min {{ s.minimum_notice_days }} days notice</span>
+                        <div class="service-chip-meta">
+                            <span class="service-price">Base N{{ s.base_price }}</span>
+                            <span class="service-notice">Min {{ s.minimum_notice_days }} days notice</span>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
 
                 <!-- Hidden select for django form integration -->
-                <select name="service" id="id_service" title="Service Type"  class="gen-style-224b51a7">
+                <select name="service" id="id_service" title="Service Type" class="hidden-select">
                     {% for s in services %}
                     <option value="{{ s.id }}" data-notice="{{ s.minimum_notice_days }}" data-price="{{ s.base_price }}"
                         {% if form.service.value == s.id %}selected{% endif %}>{{ s.name }}</option>
@@ -58,7 +54,7 @@
             </div>
 
             <!-- Product Selection (Optional) -->
-            <div class="form-group full-width gen-style-dc2cb2da" >
+            <div class="form-group full-width booking-section">
                 <label class="form-label" for="id_product">
                     <span>Step 2: Choose Specific Product (Optional)</span>
                 </label>
@@ -77,40 +73,35 @@
                 <div class="form-group">
                     <label class="form-label" for="id_customer_name">Full Name</label>
                     {{ form.customer_name }}
-                    {% if form.customer_name.errors %}<span  class="gen-style-75322014">{{
-                        form.customer_name.errors.0 }}</span>{% endif %}
+                    {% if form.customer_name.errors %}<span class="field-error">{{ form.customer_name.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="id_customer_phone">Phone Number (WhatsApp Enabled)</label>
                     {{ form.customer_phone }}
-                    {% if form.customer_phone.errors %}<span  class="gen-style-75322014">{{
-                        form.customer_phone.errors.0 }}</span>{% endif %}
+                    {% if form.customer_phone.errors %}<span class="field-error">{{ form.customer_phone.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group full-width">
                     <label class="form-label" for="id_customer_email">Email Address</label>
                     {{ form.customer_email }}
-                    {% if form.customer_email.errors %}<span  class="gen-style-75322014">{{
-                        form.customer_email.errors.0 }}</span>{% endif %}
+                    {% if form.customer_email.errors %}<span class="field-error">{{ form.customer_email.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="id_booking_date">Event / Delivery Date</label>
                     {{ form.booking_date }}
-                    {% if form.booking_date.errors %}<span  class="gen-style-75322014">{{
-                        form.booking_date.errors.0 }}</span>{% endif %}
+                    {% if form.booking_date.errors %}<span class="field-error">{{ form.booking_date.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="id_booking_time">Preferred Delivery / Pickup Time</label>
                     {{ form.booking_time }}
-                    {% if form.booking_time.errors %}<span  class="gen-style-75322014">{{
-                        form.booking_time.errors.0 }}</span>{% endif %}
+                    {% if form.booking_time.errors %}<span class="field-error">{{ form.booking_time.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group full-width">
-                    <label class="form-label" for="id_quantity_notes">Quantities, Flavors & Custom Requirements</label>
+                    <label class="form-label" for="id_quantity_notes">Quantities, Flavors &amp; Custom Requirements</label>
                     {{ form.quantity_notes }}
                 </div>
             </div>
@@ -119,16 +110,14 @@
             <div class="price-summary-box">
                 <div>
                     <div class="est-title">Estimated Total Cost</div>
-                    <div  class="gen-style-bd308a19">Includes base service rate + selected item
-                        price</div>
+                    <div class="est-sub">Includes base service rate + selected item price</div>
                 </div>
                 <div class="est-amount" id="live_price_est">N5,000.00</div>
             </div>
 
-            <div  class="gen-style-08a6b005">
-                <button type="submit" class="btn-primary gen-style-20aecf26"
-                   >
-                    <span>Confirm & Reserve Booking Slot</span>
+            <div class="booking-submit-wrap">
+                <button type="submit" class="btn-primary booking-submit-btn">
+                    <span>Confirm &amp; Reserve Booking Slot</span>
                 </button>
             </div>
         </form>

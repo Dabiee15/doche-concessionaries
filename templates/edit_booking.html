@@ -5,16 +5,13 @@
 
 {% block content %}
 <div class="booking-container">
-    <div
-         class="gen-style-3b55f0a1">
+    <div class="edit-header">
         <div>
             <span class="tag-badge caramel">Admin Edit Mode</span>
-            <h2 class="font-serif gen-style-e9aeb2ad" >Edit Booking
-                Request #DCH-000{{ booking.id }}</h2>
-            <p  class="gen-style-fe08d3ef">Modify customer details, scheduled date & time,
-                products, status, and price estimate.</p>
+            <h2 class="font-serif edit-heading">Edit Booking Request #DCH-000{{ booking.id }}</h2>
+            <p class="edit-sub">Modify customer details, scheduled date &amp; time, products, status, and price estimate.</p>
         </div>
-        <a href="{% url 'manage_bookings' %}" class="btn-secondary gen-style-fd4786e7" >Back to Portal</a>
+        <a href="{% url 'manage_bookings' %}" class="btn-secondary edit-back-btn">Back to Portal</a>
     </div>
 
     <form method="POST" action="" class="booking-card">
@@ -59,11 +56,10 @@
             <div class="form-group">
                 <label class="form-label" for="status">Booking Status</label>
                 <select name="status" id="status" title="Booking Status" class="form-select">
-                    <option value="PENDING" {% if booking.status=='PENDING' %}selected{% endif %}>Pending Confirmation
-                    </option>
-                    <option value="CONFIRMED" {% if booking.status=='CONFIRMED' %}selected{% endif %}>Confirmed</option>
-                    <option value="COMPLETED" {% if booking.status=='COMPLETED' %}selected{% endif %}>Completed</option>
-                    <option value="CANCELLED" {% if booking.status=='CANCELLED' %}selected{% endif %}>Cancelled</option>
+                    <option value="PENDING" {% if booking.status == 'PENDING' %}selected{% endif %}>Pending Confirmation</option>
+                    <option value="CONFIRMED" {% if booking.status == 'CONFIRMED' %}selected{% endif %}>Confirmed</option>
+                    <option value="COMPLETED" {% if booking.status == 'COMPLETED' %}selected{% endif %}>Completed</option>
+                    <option value="CANCELLED" {% if booking.status == 'CANCELLED' %}selected{% endif %}>Cancelled</option>
                 </select>
             </div>
 
@@ -75,16 +71,14 @@
             </div>
         </div>
 
-        <div class="form-group full-width gen-style-a8129340" >
-            <label class="form-label" for="{{ form.quantity_notes.id_for_label }}">Order Notes & Customization
-                Details</label>
+        <div class="form-group full-width edit-notes-group">
+            <label class="form-label" for="{{ form.quantity_notes.id_for_label }}">Order Notes &amp; Customization Details</label>
             {{ form.quantity_notes }}
         </div>
 
-        <div  class="gen-style-1d7e9472">
-            <button type="submit" class="btn-primary gen-style-6916c7fc" >Save
-                Booking Changes</button>
-            <a href="{% url 'manage_bookings' %}" class="btn-secondary gen-style-52e31bec" >Cancel</a>
+        <div class="edit-actions">
+            <button type="submit" class="btn-primary edit-save-btn">Save Booking Changes</button>
+            <a href="{% url 'manage_bookings' %}" class="btn-secondary edit-cancel-btn">Cancel</a>
         </div>
     </form>
 </div>

@@ -5,8 +5,8 @@
 <!-- Hero Banner -->
 <section class="hero-section">
     <div class="hero-content">
-        <span class="tag-badge">Premium Confectionery & Catering</span>
-        <h2  class="gen-style-abf93305">Indulgent Flavors. <span>Luxury You Can Taste.</span></h2>
+        <span class="tag-badge">Premium Confectionery &amp; Catering</span>
+        <h2 class="hero-heading">Indulgent Flavors. <span>Luxury You Can Taste.</span></h2>
         <p class="hero-subtitle">From custom centerpiece cakes and artisanal cupcakes to our signature crunchy chin chin
             and event catering bars. We bring elegance to your special occasions.</p>
         <div class="hero-actions">
@@ -29,10 +29,10 @@
 </section>
 
 <!-- Organic Bento Grid Section -->
-<section  class="gen-style-68378f80">
+<section class="featured-section">
     <div class="bento-header">
         <span class="tag-badge caramel">Artisanal Product Showcase</span>
-        <h2 class="scribble-title gen-style-07c308b0" >Our Signature Confections</h2>
+        <h2 class="scribble-title featured-title">Our Signature Confections</h2>
         <p>Explore our selection of cakes, crunchy coated snacks, and sweet pastries prepared fresh to order.</p>
     </div>
 
@@ -55,7 +55,7 @@
             </div>
         </div>
         {% empty %}
-        <div  class="gen-style-dfa2da83">
+        <div class="bento-empty">
             <p>No products found in catalog. Run <code>python manage.py seed_data</code> to populate sample items.</p>
         </div>
         {% endfor %}
@@ -63,15 +63,12 @@
 </section>
 
 <!-- How It Works & Scheduler Banner -->
-<section
-     class="gen-style-0f175113">
-    <div  class="gen-style-d553eb19">
-        <span class="tag-badge caramel gen-style-7b754eef" >Seamless Booking System</span>
-        <h2 class="font-serif gen-style-c073ea2b" >Planning a Birthday,
-            Wedding, or Party?</h2>
-        <p  class="gen-style-f257860f">Choose your preferred
-            date, pick your service or snack package, and lock in your delivery slot in seconds.</p>
-        <a href="{% url 'booking' %}" class="btn-primary gen-style-e4789709" >
+<section class="cta-banner">
+    <div class="cta-banner-inner">
+        <span class="tag-badge caramel cta-tag">Seamless Booking System</span>
+        <h2 class="font-serif cta-heading">Planning a Birthday, Wedding, or Party?</h2>
+        <p class="cta-text">Choose your preferred date, pick your service or snack package, and lock in your delivery slot in seconds.</p>
+        <a href="{% url 'booking' %}" class="btn-primary cta-btn">
             <span>Open Interactive Scheduler</span>
         </a>
     </div>

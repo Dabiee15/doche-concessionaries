@@ -849,3 +849,147 @@ body {
   background: var(--chocolate) !important;
   color: #FAF6F0 !important;
 }
+
+/* ============================================
+   TEMPLATE SEMANTIC CLASSES (replacing inline styles)
+   ============================================ */
+
+/* Footer */
+.footer-brand-desc { color: var(--text-muted); margin-bottom: 12px; font-size: 0.9rem; }
+.footer-col-title { color: var(--caramel-border); margin-bottom: 14px; font-size: 0.95rem; }
+.footer-nav-list { list-style: none; }
+.footer-nav-list li { margin-bottom: 8px; }
+.footer-nav-link { color: inherit; text-decoration: none; font-size: 0.9rem; }
+.footer-phone { font-size: 0.95rem; margin-bottom: 6px; }
+.footer-contact-sub { color: var(--text-muted); font-size: 0.85rem; }
+
+/* Home Page */
+.hero-heading { margin-top: 14px; }
+.featured-section { margin-bottom: 60px; }
+.featured-title { margin-top: 10px; }
+.bento-empty { grid-column: span 12; text-align: center; padding: 40px; background: white; border-radius: 20px; }
+.cta-banner {
+  background: var(--chocolate);
+  color: var(--cream);
+  border-radius: var(--radius-lg);
+  padding: 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.cta-banner-inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+.cta-tag { margin-bottom: 12px; }
+.cta-heading { font-size: 2.3rem; color: #FFF; margin-bottom: 16px; }
+.cta-text { font-size: 1.05rem; color: var(--cream); margin-bottom: 30px; opacity: 0.9; }
+.cta-btn { background: var(--caramel); color: #FFF; }
+
+/* Booking Page */
+.booking-page-wrap { max-width: 900px; margin: 0 auto; }
+.booking-page-header { text-align: center; margin-bottom: 30px; }
+.booking-page-title { margin-top: 10px; }
+.booking-page-sub { color: var(--text-muted); font-size: 1.05rem; }
+.scheduler-console-title { font-size: 1.6rem; color: var(--chocolate); }
+.scheduler-console-sub { font-size: 0.85rem; color: var(--text-muted); }
+.scheduler-notice-badge { font-size: 0.8rem; }
+.booking-section { margin-bottom: 24px; }
+.service-chip-meta { margin-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; }
+.service-price { color: var(--caramel); }
+.service-notice { color: var(--royal-blue); }
+.hidden-select { display: none; }
+.field-error { color: red; font-size: 0.8rem; }
+.est-sub { font-size: 0.8rem; color: var(--text-muted); }
+.booking-submit-wrap { margin-top: 30px; text-align: center; }
+.booking-submit-btn { width: 100%; justify-content: center; font-size: 1.05rem; padding: 15px; }
+
+/* Booking Success Page */
+.success-tag { font-size: 0.85rem; }
+.success-heading { font-size: 2.3rem; color: var(--chocolate); margin-top: 12px; }
+.success-sub { color: var(--text-muted); margin-top: 8px; }
+.booking-breakdown {
+  background: var(--cream);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: left;
+  margin: 24px 0;
+  border: 1px solid var(--border-light);
+}
+.breakdown-title { color: var(--chocolate); margin-bottom: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 8px; }
+.breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 0.95rem; }
+.breakdown-label { color: var(--chocolate); }
+.breakdown-date { font-weight: 700; color: var(--caramel); }
+.breakdown-time { font-weight: 700; color: var(--royal-blue); }
+.breakdown-price { font-size: 1.2rem; font-weight: 800; color: var(--caramel); }
+.breakdown-notes { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-light); }
+.breakdown-notes-text { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+.success-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.whatsapp-btn { background: #25D366; color: white; }
+
+/* Edit Booking Page */
+.edit-header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.edit-heading { font-size: 2.2rem; color: var(--chocolate); margin-top: 6px; }
+.edit-sub { color: var(--text-muted); font-size: 0.9rem; }
+.edit-back-btn { padding: 10px 18px; }
+.edit-notes-group { margin-top: 16px; }
+.edit-actions { margin-top: 24px; display: flex; gap: 16px; }
+.edit-save-btn { flex: 1; justify-content: center; padding: 14px; }
+.edit-cancel-btn { padding: 14px 24px; }
+
+/* Product List Page */
+.catalog-header-wrap { text-align: center; margin-bottom: 40px; }
+.catalog-title { margin-top: 10px; }
+.catalog-subtitle { color: var(--text-muted); max-width: 600px; margin: 0 auto 24px; }
+.catalog-search-form { max-width: 600px; margin: 0 auto; display: flex; gap: 12px; }
+.catalog-search-input { flex: 1; }
+.catalog-search-btn { padding: 10px 24px; }
+.catalog-tabs { display: flex; justify-content: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+.catalog-tab-btn { padding: 8px 18px; font-size: 0.85rem; }
+.product-name-link { color: var(--chocolate); text-decoration: none; }
+.bento-actions { display: flex; gap: 8px; }
+.bento-detail-btn { padding: 6px 12px; font-size: 0.8rem; }
+.catalog-empty { grid-column: span 12; text-align: center; padding: 60px; background: white; border-radius: var(--radius-md); }
+.catalog-empty-sub { color: var(--text-muted); margin-top: 8px; }
+.catalog-empty-btn { margin-top: 16px; display: inline-block; }
+
+/* Product Detail Page */
+.product-detail-wrap { background: var(--cream-paper); border-radius: var(--radius-lg); border: 1px solid var(--border-light); padding: 40px; box-shadow: var(--shadow-lg); margin-bottom: 50px; }
+.product-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.product-img-col { position: relative; }
+.product-img-frame { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-light); box-shadow: var(--shadow-md); }
+.product-img-frame img { width: 100%; height: 380px; object-fit: cover; }
+.product-badge-pos { position: absolute; top: -12px; left: -12px; }
+.product-badge-sm { font-size: 0.85rem; padding: 6px 16px; }
+.product-category-label { color: var(--caramel); font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+.product-detail-name { font-size: 2.6rem; color: var(--chocolate); margin: 8px 0 16px; }
+.product-detail-desc { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+.product-price-row { background: var(--cream); padding: 20px; border-radius: 12px; border: 1px solid var(--border-light); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.product-price-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+.product-price-val { font-size: 1.8rem; font-weight: 800; color: var(--caramel); }
+.product-avail-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-align: right; }
+.product-avail-val { font-weight: 700; color: #065F46; }
+.product-cta-row { display: flex; gap: 16px; align-items: center; }
+.product-order-btn { flex: 1; justify-content: center; padding: 14px; }
+.product-back-btn { padding: 14px; }
+.related-section { margin-top: 40px; }
+.related-title { font-size: 1.8rem; margin-bottom: 20px; }
+
+/* Manage Bookings */
+.manage-bookings-table-col { font-size: 0.8rem; }
+.table-sub-text-sm { font-size: 0.75rem; color: var(--text-muted); }
+.table-service-name { font-weight: 600; }
+.table-product-sub-sm { font-size: 0.8rem; color: var(--text-muted); }
+.table-date-highlight { color: var(--caramel); font-weight: 700; }
+.table-time-sm { font-size: 0.8rem; }
+.table-price-bold { font-weight: 700; color: var(--chocolate); }
+.table-action-group { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.table-edit-btn { padding: 4px 10px; font-size: 0.75rem; border-color: var(--caramel); color: var(--caramel); }
+.table-status-form { display: inline-block; }
+.table-status-select { padding: 4px 8px; font-size: 0.75rem; }
+.table-empty-cell { text-align: center; padding: 40px; }
+
+@media (max-width: 768px) {
+  .product-detail-grid { grid-template-columns: 1fr; }
+  .breakdown-grid { grid-template-columns: 1fr; }
+  .cta-banner { padding: 30px 20px; }
+  .cta-heading { font-size: 1.7rem; }
+}
