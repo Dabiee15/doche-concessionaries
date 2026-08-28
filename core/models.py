@@ -30,13 +30,13 @@ class Product(models.Model):
         if self.image:
             import os
             from django.conf import settings
-            media_path = os.path.join(settings.MEDIA_ROOT, self.image.name)
-            if not os.path.exists(media_path):
-                base_name = os.path.basename(self.image.name)
-                static_path = os.path.join(settings.BASE_DIR, 'static', 'images', base_name)
-                if os.path.exists(static_path):
-                    from django.templatetags.static import static
-                    return static(f'images/{base_name}')
+            base_name = os.path.basename(self.image.name)
+            # If we committed a copy of this image to static assets, ALWAYS prefer it.
+            # Static assets are served via WhiteNoise in production, whereas media files are 404.
+            static_path = os.path.join(settings.BASE_DIR, 'static', 'images', base_name)
+            if os.path.exists(static_path):
+                from django.templatetags.static import static
+                return static(f'images/{base_name}')
             return self.image.url
         if self.image_url:
             return self.image_url
